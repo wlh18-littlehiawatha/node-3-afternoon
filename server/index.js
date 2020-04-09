@@ -3,15 +3,15 @@ require('dotenv').config();
 
 const express = require('express');
 const massive = require('massive');
-// const Ctrl=require('./controllers/')
 
-const {SERVER_PORT, CONNECTION_STRING} = process.env
 
 // Controller File
+const productsCtrl=require('./controllers/products_controller')
 
 
 
 // .ENV Variables
+const {SERVER_PORT, CONNECTION_STRING} = process.env
 
 
 // Setup App
@@ -43,3 +43,10 @@ massive( {
 );
 
 // EndPoints
+// const {getAll, getOne, update, create} = productsCtrl
+
+app.post('/api/products/', productsCtrl.create);
+app.get('/api/products/', productsCtrl.getAll);
+app.get('/api/products/:id', productsCtrl.getOne);
+app.put('/api/products/:id', productsCtrl.update);
+app.delete('/api/products/:id', productsCtrl.delete);
