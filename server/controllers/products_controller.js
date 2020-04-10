@@ -1,22 +1,10 @@
 module.exports = {
 
-// post
-
-// get
-
-
-// get
-
-
-// put
-
-
-// delete
-
 create: (req, res) => {
    const dbInstance = req.app.get('db');
+   const {name, description, price, image_url} = req.body;
 
-   dbInstance.create_product()
+   dbInstance.create_product([name, description, price, image_url])
    .then( () => res.sendStatus(200))
    .catch( err => {
       res.sendStatus(500).send({errorMessage: "Website currently under maintenance"});
@@ -27,9 +15,10 @@ create: (req, res) => {
 
 getOne: (req, res) => {
    const dbInstance = req.app.get('db');
+   const {id} = req.params
 
-   dbInstance.read_product()
-   .then( () => res.sendStatus(200))
+   dbInstance.read_product(id)
+   .then( (product) => res.sendStatus(200).send(product))
    .catch( err => {
       res.sendStatus(500).send({errorMessage: "Website currently under maintenance"});
       console.log(err);
@@ -43,9 +32,9 @@ getAll: (req, res) => {
    const dbInstance = req.app.get('db');
 
    dbInstance.read_products()
-   .then( () => res.sendStatus(200))
+   .then( (products) => res.sendStatus(200).send(product))
    .catch( err => {
-      console.log(err);
+      // console.log(err);
       res.sendStatus(500).send({errorMessage: "Website currently under maintenance"});
    });
 },
@@ -55,7 +44,7 @@ getAll: (req, res) => {
 update: (req, res) => {
    const dbInstance = req.app.get('db');
 
-   dbInstance.update_product()
+   dbInstance.update_product([params.id, query.desc])
    .then( () => res.sendStatus(200))
    .catch( err => {
       res.sendStatus(500).send({errorMessage: "Website currently under maintenance"});
@@ -67,8 +56,9 @@ update: (req, res) => {
 
 delete: (req, res) => {
    const dbInstance = req.app.get('db');
+   const {id} = req.params;
 
-   dbInstance.delete_product()
+   dbInstance.delete_product(id)
    .then( () => res.sendStatus(200))
    .catch( err => {
       res.sendStatus(500).send({errorMessage: "Website currently under maintenance"});
